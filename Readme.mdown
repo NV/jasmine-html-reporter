@@ -1,6 +1,6 @@
 A drop-in replacement for default [Jasmine](https://github.com/pivotal/jasmine) HTML reporter.
 
-Example: <http://nv.github.com/CSSOM/spec/> (coming soon)
+Example: <http://nv.github.com/CSSOM/spec/>
 
 Features:
 
