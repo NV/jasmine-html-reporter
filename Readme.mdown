@@ -1,0 +1,10 @@
+A drop-in replacement for default [Jasmine](https://github.com/pivotal/jasmine) HTML reporter.
+
+Example: <http://nv.github.com/CSSOM/spec/> (coming soon)
+
+Features:
+
+  * Suite merges. Two suites with the same name displays like one.
+  * Pass/Fail favicon
+
+Tested only in the latest versions of modern browsers: Chrome 16, Firefox 9.0.1, Safari 5.1.2.

@@ -1,0 +1,83 @@
+body {
+  border-top: 2px solid transparent;
+  font: 14px sans-serif;
+  background: #E5E8E3;
+}
+h1 {font-size: 18px}
+h2 {font-size: 15px}
+h3 {font-size: 14px}
+h4 {font-size: 13px}
+h5 {font-size: 12px}
+h6 {font-size: 11px}
+section {
+  margin-left: 24px;
+  margin-bottom: 6px;
+  padding-left: 4px;
+  border-left: 0 solid transparent;
+}
+section:target {
+  background: #FFC;
+}
+section + section {
+  margin-top: 1px;
+}
+ol {
+  padding: 0;
+  margin: 0;
+}
+li {
+  margin-bottom: 1px;
+  list-style: none;
+}
+pre {
+  font-size: 12px;
+  margin: 0;
+}
+
+body.suite-pass {
+  border-color: green;
+}
+body.suite-fail {
+  border-color: #C00;
+}
+body.filter-results .suite:not(.visible),
+body.filter-results .spec:not(.visible) {
+  display: none;
+}
+body.filter-results .target .suite,
+body.filter-results .target .spec {
+  display: block;
+}
+.suite {
+  margin-bottom: 1em;
+}
+.suite-title {
+  margin: .5em;
+}
+.spec-title {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 0;
+}
+.spec > ol {
+  margin: .2em 0 1em;
+}
+.item {
+  padding-left: .5em;
+  border-left: 1px solid transparent;
+}
+.title-link {
+  text-decoration: none;
+  color: gray;
+}
+.title-link-fail {
+  color: #8A0000;
+}
+.item-fail {
+  border-color: #C00;
+  color: #900;
+  background-color: #EEE;
+}
+.title-link-pass {
+  color: #63705C;
+}
