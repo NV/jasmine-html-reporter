@@ -4,6 +4,39 @@ jasmine.HtmlReporter = function() {};
 
 (function() {
 
+  var addClass = (function() {
+    if (document.createElement("div").classList !== undefined) {
+      return function(elem, className) {
+        elem.classList.add(className);
+      };
+    } else {
+      return function(elem, className) {
+        var classList = elem.className.trim().split(/\s+/);
+        if (classList.indexOf(className) === -1) {
+          classList.push(className);
+          elem.className = classList.join(" ");
+        }
+      };
+    }
+  })();
+  
+  var removeClass = (function() {
+    if (document.createElement("div").classList !== undefined) {
+      return function(elem, className) {
+        elem.classList.remove(className);
+      };
+    } else {
+      return function(elem, className) {
+        var classList = elem.className.trim().split(/\s+/);
+        var idx = classList.indexOf(className);
+        if (idx !== -1) {
+          classList.splice(idx, 1);
+          elem.className = classList.join(" ");
+        }
+      };
+    }
+  })();
+
   var tree;
   var specsMap = {};
   var suitesMap = {};
@@ -29,12 +62,12 @@ jasmine.HtmlReporter = function() {};
     }
     if (results.failedCount) {
       if (!vertex.fail) {
-        vertex.element.classList.add('suite-fail');
-        vertex.element.classList.remove('suite-pass');
+        addClass(vertex.element, 'suite-fail');
+        removeClass(vertex.element, 'suite-pass');
       }
     } else if (!vertex.fail) {
-      vertex.element.classList.add('suite-pass');
-      vertex.titleLink.classList.add('title-link-pass');
+      addClass(vertex.element, 'suite-pass');
+      addClass(vertex.titleLink, 'title-link-pass');
     }
   };
 
@@ -58,13 +91,13 @@ jasmine.HtmlReporter = function() {};
       var suiteName = suites[i];
       if (!vertex.children.hasOwnProperty(suiteName)) {
         section = document.createElement('section');
-        section.classList.add('suite');
+        addClass(section, 'suite');
         hx = document.createElement('h' + Math.min(i + 1, 6));
-        hx.classList.add('suite-title');
+        addClass(hx, 'suite-title');
         section.appendChild(hx);
         a = document.createElement('a');
         hx.appendChild(a);
-        a.classList.add('title-link');
+        addClass(a, 'title-link');
         a.textContent = suiteName;
         a.href = '?spec=' + (section.id = encodePath(suites.slice(0, i + 1)));
 
@@ -77,12 +110,12 @@ jasmine.HtmlReporter = function() {};
     }
 
     section = document.createElement('section');
-    section.classList.add('spec');
+    addClass(section, 'spec');
     hx = document.createElement('h' + Math.min(i + 1, 6));
     section.appendChild(hx);
-    hx.classList.add('spec-title');
+    addClass(hx, 'spec-title');
     a = document.createElement('a');
-    a.classList.add('title-link');
+    addClass(a, 'title-link');
     hx.appendChild(a);
     a.textContent = spec.description;
     suites.push(spec.description);
@@ -111,28 +144,28 @@ jasmine.HtmlReporter = function() {};
       for (var i = 0; i < items.length; i++) {
         var item = items[i];
         var itemElement = document.createElement('li');
-        itemElement.classList.add('item');
+        addClass(itemElement, 'item');
         if (item.message instanceof Element) {
           itemElement.appendChild(item.message);
         } else {
           itemElement.textContent += item.message;
         }
-        itemElement.classList.add(item.passed() ? 'item-pass' : 'item-fail');
+        addClass(itemElement, item.passed() ? 'item-pass' : 'item-fail');
         itemsHolder.appendChild(itemElement);
       }
       specElement.appendChild(itemsHolder);
 
-      specElement.classList.add('spec-fail');
-      vertex.titleLink.classList.add('title-link-fail');
+      addClass(specElement, 'spec-fail');
+      addClass(vertex.titleLink, 'title-link-fail');
 
       while ((vertex = vertex.parent) && !vertex.fail) {
         vertex.fail = true;
-        vertex.element.classList.add('suite-fail');
-        vertex.titleLink && vertex.titleLink.classList.add('title-link-fail');
+        addClass(vertex.element, 'suite-fail');
+        vertex.titleLink && addClass(vertex.titleLink, 'title-link-fail');
       }
     } else {
-      specElement.classList.add('spec-pass');
-      vertex.titleLink.classList.add('title-link-pass');
+      addClass(specElement, 'spec-pass');
+      addClass(vertex.titleLink, 'title-link-pass');
     }
   };
 
@@ -196,8 +229,8 @@ jasmine.HtmlReporter = function() {};
   }
 
   function onFirstFail() {
-    document.body.classList.remove('pass');
-    document.body.classList.add('fail');
+    removeClass(document.body, 'pass');
+    addClass(document.body, 'fail');
     setFavicon('favicon_fail');
   }
 
